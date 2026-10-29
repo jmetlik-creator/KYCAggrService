@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="KycAggregation.Api/KycAggregation.Api.csproj" />
+  <Project Path="KycAggregation.Data/KycAggregation.Data.csproj" />
+  <Project Path="KycAggregation.Tests/KycAggregation.Tests.csproj" />
+</Solution>
