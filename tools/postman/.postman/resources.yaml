@@ -1,0 +1,15 @@
+# Use this workspace to collaborate
+workspace:
+  id: a80f0a1d-b06e-4f04-8684-2bd7fec1b8ec
+
+# Each entry here maps a local resource to one or more corresponding objects in Postman Cloud
+
+cloudResources:
+  collections:
+    ../postman/collections/KYCAggrService Local API Collection: 08232da9-c033-4a91-86e5-a057b8b2d390
+
+# All resources in the `postman/` folder are automatically registered in Local View.
+# Point to additional files outside the `postman/` folder to register them individually. Example:
+#localResources:
+#  collections:
+#    - ../tests/E2E Test Collection/

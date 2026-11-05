@@ -1,4 +1,5 @@
 using KycAggregation.Data;
+using Logging.Contracts;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,10 +9,14 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddOpenApi();
 
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
-    ?? $"Data Source={Path.Combine(AppContext.BaseDirectory, "kyc-data.db")}";
+var configuredConnectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+if (string.IsNullOrWhiteSpace(configuredConnectionString))
+{
+    throw new InvalidOperationException("ConnectionStrings:DefaultConnection is required.");
+}
 
-builder.Services.AddDbContext<KycDbContext>(options => options.UseSqlite(connectionString));
+builder.Services.AddDbContext<KycDbContext>(options => options.UseSqlServer(configuredConnectionString));
+builder.Services.Configure<KycDataCacheOptions>(builder.Configuration.GetSection("KycDataCache"));
 builder.Services.AddScoped<IKycDataRepository, KycDataRepository>();
 builder.Services.AddScoped<KycAggregationService>();
 
@@ -22,6 +27,13 @@ builder.Services.AddHttpClient<ICustomerDataClient, CustomerDataClient>((sp, cli
 
     client.BaseAddress = new Uri(baseUrl);
     client.Timeout = TimeSpan.FromSeconds(30);
+});
+
+builder.Services.AddHttpClient<ILogSink, HttpLogSinkClient>((sp, client) =>
+{
+    var baseUrl = builder.Configuration["LoggingService:BaseUrl"] ?? "http://localhost:5201";
+    client.BaseAddress = new Uri(baseUrl);
+    client.Timeout = TimeSpan.FromSeconds(10);
 });
 
 var app = builder.Build();
@@ -37,32 +49,6 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
-app.MapGet("/kyc-data/{ssn}", async ([FromRoute] string ssn, KycAggregationService service, ILogger<Program> logger) =>
-{
-    try
-    {
-        var response = await service.GetAsync(ssn);
-        return Results.Ok(response);
-    }
-    catch (InvalidSsnException ex)
-    {
-        logger.LogWarning(ex, "Invalid SSN supplied.");
-        return Results.BadRequest(new { error = ex.Message });
-    }
-    catch (CustomerNotFoundException ex)
-    {
-        logger.LogWarning(ex, "Customer data not found for SSN {Ssn}.", ssn);
-        return Results.NotFound(new { error = "Customer data not found for the provided SSN." });
-    }
-    catch (Exception ex)
-    {
-        logger.LogError(ex, "Unexpected error while processing KYC request for SSN {Ssn}.", ssn);
-        return Results.Problem(
-            detail: "An unexpected error occurred while processing the request.",
-            statusCode: StatusCodes.Status500InternalServerError,
-            title: "Internal server error");
-    }
-})
-.WithName("GetAggregatedKycData");
+app.MapControllers();
 
 app.Run();

@@ -2,4 +2,6 @@
   <Project Path="KycAggregation.Api/KycAggregation.Api.csproj" />
   <Project Path="KycAggregation.Data/KycAggregation.Data.csproj" />
   <Project Path="KycAggregation.Tests/KycAggregation.Tests.csproj" />
+  <Project Path="Logging.Contracts/Logging.Contracts.csproj" />
+  <Project Path="LoggingService.Api/LoggingService.Api.csproj" />
 </Solution>

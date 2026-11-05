@@ -1,0 +1,13 @@
+$kind: http-request
+url: http://localhost:5201/api/logs?transactionId=postman-correlation-001
+method: GET
+queryParams:
+  transactionId: postman-correlation-001
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Status code is 200", function () { pm.response.to.have.status(200); });
+      pm.test("Transaction logs are returned", function () { var json = pm.response.json(); pm.expect(json).to.be.an("array"); pm.expect(json.length).to.be.greaterThan(0); });
+      pm.test("Matching correlation ID is returned", function () { var json = pm.response.json(); var ids = json.map(function (entry) { return entry.correlationId; }); pm.expect(ids).to.include("postman-correlation-001"); });
+    language: text/javascript
+order: 3000

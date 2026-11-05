@@ -58,3 +58,6 @@ C:\Projects\KYCAggrService\KycAggregation.Data\obj\Debug\net10.0\refint\KycAggre
 C:\Projects\KYCAggrService\KycAggregation.Data\obj\Debug\net10.0\KycAggregation.Data.pdb
 C:\Projects\KYCAggrService\KycAggregation.Data\obj\Debug\net10.0\KycAggregation.Data.genruntimeconfig.cache
 C:\Projects\KYCAggrService\KycAggregation.Data\obj\Debug\net10.0\ref\KycAggregation.Data.dll
+C:\Projects\KYCAggrService\KycAggregation.Data\bin\Debug\net10.0\Logging.Contracts.dll
+C:\Projects\KYCAggrService\KycAggregation.Data\bin\Debug\net10.0\Logging.Contracts.pdb
+C:\Projects\KYCAggrService\KycAggregation.Data\obj\Debug\net10.0\KycAggre.57DD0405.Up2Date

@@ -1,0 +1,407 @@
+﻿{
+    "info":  {
+                 "name":  "KYCAggrService Local API Collection",
+                 "description":  "Prepared Postman requests and assertions for the KYC aggregation service and logging microservice.",
+                 "schema":  "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+                 "version":  "1.0.0"
+             },
+    "item":  [
+                 {
+                     "name":  "KYC Aggregation API",
+                     "item":  [
+                                  {
+                                      "name":  "Health check",
+                                      "request":  {
+                                                      "method":  "GET",
+                                                      "header":  [
+
+                                                                 ],
+                                                      "url":  {
+                                                                  "raw":  "http://localhost:5023/health",
+                                                                  "protocol":  "http",
+                                                                  "host":  [
+                                                                               "localhost"
+                                                                           ],
+                                                                  "port":  "5023",
+                                                                  "path":  [
+                                                                               "health"
+                                                                           ]
+                                                              }
+                                                  },
+                                      "response":  [
+
+                                                   ],
+                                      "event":  [
+                                                    {
+                                                        "listen":  "test",
+                                                        "script":  {
+                                                                       "type":  "text/javascript",
+                                                                       "exec":  [
+                                                                                    "pm.test(\"Status code is 200\", function () { pm.response.to.have.status(200); });",
+                                                                                    "pm.test(\"Service is healthy\", function () { var json = pm.response.json(); pm.expect(json.status).to.eql(\"ok\"); });"
+                                                                                ]
+                                                                   }
+                                                    }
+                                                ]
+                                  },
+                                  {
+                                      "name":  "Get aggregated KYC data",
+                                      "request":  {
+                                                      "method":  "GET",
+                                                      "header":  [
+
+                                                                 ],
+                                                      "url":  {
+                                                                  "raw":  "http://localhost:5023/kyc-data/19800115-1234",
+                                                                  "protocol":  "http",
+                                                                  "host":  [
+                                                                               "localhost"
+                                                                           ],
+                                                                  "port":  "5023",
+                                                                  "path":  [
+                                                                               "kyc-data",
+                                                                               "19800115-1234"
+                                                                           ]
+                                                              }
+                                                  },
+                                      "response":  [
+
+                                                   ],
+                                      "event":  [
+                                                    {
+                                                        "listen":  "test",
+                                                        "script":  {
+                                                                       "type":  "text/javascript",
+                                                                       "exec":  [
+                                                                                    "pm.test(\"Status code is 200\", function () { pm.response.to.have.status(200); });",
+                                                                                    "pm.test(\"Response contains SSN\", function () { var json = pm.response.json(); pm.expect(json.ssn).to.eql(\"19800115-1234\"); });",
+                                                                                    "pm.test(\"Summary response includes identity fields\", function () { var json = pm.response.json(); pm.expect(json.firstName).to.be.a(\"string\"); pm.expect(json.fetchState).to.be.a(\"string\"); });"
+                                                                                ]
+                                                                   }
+                                                    }
+                                                ]
+                                  },
+                                  {
+                                      "name":  "Get full aggregated KYC data",
+                                      "request":  {
+                                                      "method":  "GET",
+                                                      "header":  [
+
+                                                                 ],
+                                                      "url":  {
+                                                                  "raw":  "http://localhost:5023/kyc-data/19800115-1234/full",
+                                                                  "protocol":  "http",
+                                                                  "host":  [
+                                                                               "localhost"
+                                                                           ],
+                                                                  "port":  "5023",
+                                                                  "path":  [
+                                                                               "kyc-data",
+                                                                               "19800115-1234",
+                                                                               "full"
+                                                                           ]
+                                                              }
+                                                  },
+                                      "response":  [
+
+                                                   ],
+                                      "event":  [
+                                                    {
+                                                        "listen":  "test",
+                                                        "script":  {
+                                                                       "type":  "text/javascript",
+                                                                       "exec":  [
+                                                                                    "pm.test(\"Status code is 200\", function () { pm.response.to.have.status(200); });",
+                                                                                    "pm.test(\"Full response contains personal and contact data\", function () { var json = pm.response.json(); pm.expect(json.ssn).to.eql(\"19800115-1234\"); pm.expect(json.personalDetails).to.be.an(\"object\"); pm.expect(json.contactDetails).to.be.an(\"object\"); pm.expect(json.kycForm).to.be.an(\"object\"); });"
+                                                                                ]
+                                                                   }
+                                                    }
+                                                ]
+                                  },
+                                  {
+                                      "name":  "Invalid SSN request",
+                                      "request":  {
+                                                      "method":  "GET",
+                                                      "header":  [
+
+                                                                 ],
+                                                      "url":  {
+                                                                  "raw":  "http://localhost:5023/kyc-data/invalid-ssn",
+                                                                  "protocol":  "http",
+                                                                  "host":  [
+                                                                               "localhost"
+                                                                           ],
+                                                                  "port":  "5023",
+                                                                  "path":  [
+                                                                               "kyc-data",
+                                                                               "invalid-ssn"
+                                                                           ]
+                                                              }
+                                                  },
+                                      "response":  [
+
+                                                   ],
+                                      "event":  [
+                                                    {
+                                                        "listen":  "test",
+                                                        "script":  {
+                                                                       "type":  "text/javascript",
+                                                                       "exec":  [
+                                                                                    "pm.test(\"Status code is 400\", function () { pm.response.to.have.status(400); });",
+                                                                                    "pm.test(\"Validation error is returned\", function () { var json = pm.response.json(); pm.expect(json.error).to.be.a(\"string\"); });"
+                                                                                ]
+                                                                   }
+                                                    }
+                                                ]
+                                  },
+                                  {
+                                      "name":  "Full data invalid SSN request",
+                                      "request":  {
+                                                      "method":  "GET",
+                                                      "header":  [
+
+                                                                 ],
+                                                      "url":  {
+                                                                  "raw":  "http://localhost:5023/kyc-data/invalid-ssn/full",
+                                                                  "protocol":  "http",
+                                                                  "host":  [
+                                                                               "localhost"
+                                                                           ],
+                                                                  "port":  "5023",
+                                                                  "path":  [
+                                                                               "kyc-data",
+                                                                               "invalid-ssn",
+                                                                               "full"
+                                                                           ]
+                                                              }
+                                                  },
+                                      "response":  [
+
+                                                   ],
+                                      "event":  [
+                                                    {
+                                                        "listen":  "test",
+                                                        "script":  {
+                                                                       "type":  "text/javascript",
+                                                                       "exec":  [
+                                                                                    "pm.test(\"Status code is 400\", function () { pm.response.to.have.status(400); });",
+                                                                                    "pm.test(\"Validation error is returned\", function () { var json = pm.response.json(); pm.expect(json.error).to.be.a(\"string\"); });"
+                                                                                ]
+                                                                   }
+                                                    }
+                                                ]
+                                  },
+                                  {
+                                      "name":  "Customer not found",
+                                      "request":  {
+                                                      "method":  "GET",
+                                                      "header":  [
+
+                                                                 ],
+                                                      "url":  {
+                                                                  "raw":  "http://localhost:5023/kyc-data/99999999-9999",
+                                                                  "protocol":  "http",
+                                                                  "host":  [
+                                                                               "localhost"
+                                                                           ],
+                                                                  "port":  "5023",
+                                                                  "path":  [
+                                                                               "kyc-data",
+                                                                               "99999999-9999"
+                                                                           ]
+                                                              }
+                                                  },
+                                      "response":  [
+
+                                                   ],
+                                      "event":  [
+                                                    {
+                                                        "listen":  "test",
+                                                        "script":  {
+                                                                       "type":  "text/javascript",
+                                                                       "exec":  [
+                                                                                    "pm.test(\"Status code is 404\", function () { pm.response.to.have.status(404); });",
+                                                                                    "pm.test(\"Not found error is returned\", function () { var json = pm.response.json(); pm.expect(json.error).to.be.a(\"string\"); });"
+                                                                                ]
+                                                                   }
+                                                    }
+                                                ]
+                                  }
+                              ]
+                 },
+                 {
+                     "name":  "Logging Service API",
+                     "item":  [
+                                  {
+                                      "name":  "Health check",
+                                      "request":  {
+                                                      "method":  "GET",
+                                                      "header":  [
+
+                                                                 ],
+                                                      "url":  {
+                                                                  "raw":  "http://localhost:5201/health",
+                                                                  "protocol":  "http",
+                                                                  "host":  [
+                                                                               "localhost"
+                                                                           ],
+                                                                  "port":  "5201",
+                                                                  "path":  [
+                                                                               "health"
+                                                                           ]
+                                                              }
+                                                  },
+                                      "response":  [
+
+                                                   ],
+                                      "event":  [
+                                                    {
+                                                        "listen":  "test",
+                                                        "script":  {
+                                                                       "type":  "text/javascript",
+                                                                       "exec":  [
+                                                                                    "pm.test(\"Status code is 200\", function () { pm.response.to.have.status(200); });",
+                                                                                    "pm.test(\"Service is healthy\", function () { var json = pm.response.json(); pm.expect(json.status).to.eql(\"ok\"); });"
+                                                                                ]
+                                                                   }
+                                                    }
+                                                ]
+                                  },
+                                  {
+                                      "name":  "Get recent logs",
+                                      "request":  {
+                                                      "method":  "GET",
+                                                      "header":  [
+
+                                                                 ],
+                                                      "url":  {
+                                                                  "raw":  "http://localhost:5201/api/logs?limit=20",
+                                                                  "protocol":  "http",
+                                                                  "host":  [
+                                                                               "localhost"
+                                                                           ],
+                                                                  "port":  "5201",
+                                                                  "path":  [
+                                                                               "api",
+                                                                               "logs"
+                                                                           ],
+                                                                  "query":  [
+                                                                                {
+                                                                                    "key":  "limit",
+                                                                                    "value":  "20"
+                                                                                }
+                                                                            ]
+                                                              }
+                                                  },
+                                      "response":  [
+
+                                                   ],
+                                      "event":  [
+                                                    {
+                                                        "listen":  "test",
+                                                        "script":  {
+                                                                       "type":  "text/javascript",
+                                                                       "exec":  [
+                                                                                    "pm.test(\"Status code is 200\", function () { pm.response.to.have.status(200); });",
+                                                                                    "pm.test(\"Response is an array\", function () { pm.expect(pm.response.json()).to.be.an(\"array\"); });"
+                                                                                ]
+                                                                   }
+                                                    }
+                                                ]
+                                  },
+                                  {
+                                      "name":  "Get logs by transaction ID",
+                                      "request":  {
+                                                      "method":  "GET",
+                                                      "header":  [
+
+                                                                 ],
+                                                      "url":  {
+                                                                  "raw":  "http://localhost:5201/api/logs?transactionId=postman-correlation-001",
+                                                                  "protocol":  "http",
+                                                                  "host":  [
+                                                                               "localhost"
+                                                                           ],
+                                                                  "port":  "5201",
+                                                                  "path":  [
+                                                                               "api",
+                                                                               "logs"
+                                                                           ],
+                                                                  "query":  [
+                                                                                {
+                                                                                    "key":  "transactionId",
+                                                                                    "value":  "postman-correlation-001"
+                                                                                }
+                                                                            ]
+                                                              }
+                                                  },
+                                      "response":  [
+
+                                                   ],
+                                      "event":  [
+                                                    {
+                                                        "listen":  "test",
+                                                        "script":  {
+                                                                       "type":  "text/javascript",
+                                                                       "exec":  [
+                                                                                    "pm.test(\"Status code is 200\", function () { pm.response.to.have.status(200); });",
+                                                                                    "pm.test(\"Transaction logs are returned\", function () { var json = pm.response.json(); pm.expect(json).to.be.an(\"array\"); pm.expect(json.length).to.be.greaterThan(0); });",
+                                                                                    "pm.test(\"Matching correlation ID is returned\", function () { var json = pm.response.json(); var ids = json.map(function (entry) { return entry.correlationId; }); pm.expect(ids).to.include(\"postman-correlation-001\"); });"
+                                                                                ]
+                                                                   }
+                                                    }
+                                                ]
+                                  },
+                                  {
+                                      "name":  "Persist a log event",
+                                      "request":  {
+                                                      "method":  "POST",
+                                                      "header":  [
+                                                                     {
+                                                                         "key":  "Content-Type",
+                                                                         "value":  "application/json"
+                                                                     }
+                                                                 ],
+                                                      "body":  {
+                                                                   "mode":  "raw",
+                                                                   "raw":  "{\r\n  \"eventName\": \"KycRequestReceived\",\r\n  \"serviceName\": \"KycAggregation.Api\",\r\n  \"level\": \"Information\",\r\n  \"message\": \"KYC request received for manual Postman validation.\",\r\n  \"correlationId\": \"postman-correlation-001\",\r\n  \"occurredUtc\": \"2026-11-05T12:00:00Z\",\r\n  \"context\": {\r\n    \"ssn\": \"19800115-1234\",\r\n    \"source\": \"postman\"\r\n  }\r\n}",
+                                                                   "options":  {
+                                                                                   "raw":  {
+                                                                                               "language":  "json"
+                                                                                           }
+                                                                               }
+                                                               },
+                                                      "url":  {
+                                                                  "raw":  "http://localhost:5201/api/logs",
+                                                                  "protocol":  "http",
+                                                                  "host":  [
+                                                                               "localhost"
+                                                                           ],
+                                                                  "port":  "5201",
+                                                                  "path":  [
+                                                                               "api",
+                                                                               "logs"
+                                                                           ]
+                                                              }
+                                                  },
+                                      "response":  [
+
+                                                   ],
+                                      "event":  [
+                                                    {
+                                                        "listen":  "test",
+                                                        "script":  {
+                                                                       "type":  "text/javascript",
+                                                                       "exec":  [
+                                                                                    "pm.test(\"Status code is 200\", function () { pm.response.to.have.status(200); });",
+                                                                                    "pm.test(\"Log accepted successfully\", function () { var json = pm.response.json(); pm.expect(json.success).to.eql(true); });",
+                                                                                    "pm.test(\"Returned log id exists\", function () { var json = pm.response.json(); pm.expect(json.id).to.be.a(\"string\"); });"
+                                                                                ]
+                                                                   }
+                                                    }
+                                                ]
+                                  }
+                              ]
+                 }
+             ]
+}

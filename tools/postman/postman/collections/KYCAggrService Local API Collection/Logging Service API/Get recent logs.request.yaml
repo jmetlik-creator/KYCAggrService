@@ -1,0 +1,12 @@
+$kind: http-request
+url: http://localhost:5201/api/logs?limit=20
+method: GET
+queryParams:
+  limit: "20"
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Status code is 200", function () { pm.response.to.have.status(200); });
+      pm.test("Response is an array", function () { pm.expect(pm.response.json()).to.be.an("array"); });
+    language: text/javascript
+order: 2000

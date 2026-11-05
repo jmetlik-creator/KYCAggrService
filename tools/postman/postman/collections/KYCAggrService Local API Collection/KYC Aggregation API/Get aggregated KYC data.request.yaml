@@ -1,0 +1,11 @@
+$kind: http-request
+url: http://localhost:5023/kyc-data/19800115-1234
+method: GET
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Status code is 200", function () { pm.response.to.have.status(200); });
+      pm.test("Response contains SSN", function () { var json = pm.response.json(); pm.expect(json.ssn).to.eql("19800115-1234"); });
+      pm.test("Summary response includes identity fields", function () { var json = pm.response.json(); pm.expect(json.firstName).to.be.a("string"); pm.expect(json.fetchState).to.be.a("string"); });
+    language: text/javascript
+order: 2000

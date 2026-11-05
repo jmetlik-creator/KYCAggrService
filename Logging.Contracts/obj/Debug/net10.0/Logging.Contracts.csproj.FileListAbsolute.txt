@@ -1,0 +1,11 @@
+C:\Projects\KYCAggrService\Logging.Contracts\bin\Debug\net10.0\Logging.Contracts.deps.json
+C:\Projects\KYCAggrService\Logging.Contracts\bin\Debug\net10.0\Logging.Contracts.dll
+C:\Projects\KYCAggrService\Logging.Contracts\bin\Debug\net10.0\Logging.Contracts.pdb
+C:\Projects\KYCAggrService\Logging.Contracts\obj\Debug\net10.0\Logging.Contracts.GeneratedMSBuildEditorConfig.editorconfig
+C:\Projects\KYCAggrService\Logging.Contracts\obj\Debug\net10.0\Logging.Contracts.AssemblyInfoInputs.cache
+C:\Projects\KYCAggrService\Logging.Contracts\obj\Debug\net10.0\Logging.Contracts.AssemblyInfo.cs
+C:\Projects\KYCAggrService\Logging.Contracts\obj\Debug\net10.0\Logging.Contracts.csproj.CoreCompileInputs.cache
+C:\Projects\KYCAggrService\Logging.Contracts\obj\Debug\net10.0\Logging.Contracts.dll
+C:\Projects\KYCAggrService\Logging.Contracts\obj\Debug\net10.0\refint\Logging.Contracts.dll
+C:\Projects\KYCAggrService\Logging.Contracts\obj\Debug\net10.0\Logging.Contracts.pdb
+C:\Projects\KYCAggrService\Logging.Contracts\obj\Debug\net10.0\ref\Logging.Contracts.dll

@@ -1,0 +1,38 @@
+$kind: http-request
+url: http://localhost:5201/api/logs
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: "{\r
+
+    \  \"eventName\": \"KycRequestReceived\",\r
+
+    \  \"serviceName\": \"KycAggregation.Api\",\r
+
+    \  \"level\": \"Information\",\r
+
+    \  \"message\": \"KYC request received for manual Postman validation.\",\r
+
+    \  \"correlationId\": \"postman-correlation-001\",\r
+
+    \  \"occurredUtc\": \"2026-11-05T12:00:00Z\",\r
+
+    \  \"context\": {\r
+
+    \    \"ssn\": \"19800115-1234\",\r
+
+    \    \"source\": \"postman\"\r
+
+    \  }\r
+
+    }"
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Status code is 200", function () { pm.response.to.have.status(200); });
+      pm.test("Log accepted successfully", function () { var json = pm.response.json(); pm.expect(json.success).to.eql(true); });
+      pm.test("Returned log id exists", function () { var json = pm.response.json(); pm.expect(json.id).to.be.a("string"); });
+    language: text/javascript
+order: 4000

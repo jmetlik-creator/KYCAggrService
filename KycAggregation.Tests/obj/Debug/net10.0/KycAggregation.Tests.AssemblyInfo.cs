@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("KycAggregation.Tests")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+21b1806ffeec56b540e5b903d30832912d5b9ae7")]
 [assembly: System.Reflection.AssemblyProductAttribute("KycAggregation.Tests")]
 [assembly: System.Reflection.AssemblyTitleAttribute("KycAggregation.Tests")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
