@@ -1,17 +1,30 @@
 # Reflection
 
-This solution follows the guidance in the repository: a .NET 10 backend API, an SQLite-backed EF Core persistence layer, and a small service test that exercises the cache-first workflow.
+Missing authentication/authorization.
+App settings not set up. with base urls and so on
 
-## Design choices
-- The API service checks the local SQLite store before calling the external Customer Data API. This keeps the first request fresh while making subsequent requests fast and resilient to restarts.
-- The external client is isolated behind an interface so the service logic remains testable and reusable.
-- Error handling is centralized in the API layer. User-facing validation and not-found responses are returned as HTTP results, while unexpected failures are logged and surfaced as a generic 500 response.
+# DB
+Implement Transactions in the CR(UD) operations.
 
-## Trade-offs
-- SQLite was chosen for simplicity and persistence without extra infrastructure. A more production-oriented setup could use PostgreSQL or Redis depending on scale and operational needs.
-- The API currently chooses a recent KYC form date and falls back to a few known dates when the first choice is not available. This keeps the integration robust without introducing additional infrastructure.
+# LogService
+THe intention here was to create a standalone service that would handle the logging at a common place. Would like to have had it event driven with this service as the sole consumer initially. while the Aggregation service and  n + services would be multiple producers of a Log event via message broker.
 
-## Potential improvements
-- Add a richer integration test suite around the customer client and repository layer.
-- Add a background refresh or invalidation policy when the cached KYC data becomes stale.
-- Move sensitive configuration such as the remote API base URL into appsettings and environment variables.
+Changes that would be neccesary if setting this up as intended is to alter the dedupe logic.
+
+
+# KYC Aggregation service
+
+Resilliance should be added against the consumed services.
+Partial failure where some data can be fetched and some isnt are not handled at all.
+There is some summarization 
+
+When is the persisted data considerd stale?
+
+Decided to store json payload for changes in schema from consumed services. GDPR sensitive and needs a Cleanup step to clear sensetive data.
+
+
+# Unittests
+One test should test one and only one functionality
+
+Did not spend supermuch time on this part to be honest.
+
